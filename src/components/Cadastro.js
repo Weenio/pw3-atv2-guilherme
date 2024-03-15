@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { formatarCPF, formatarRG, formatarCel } from './mask';
 
 export default function CreateUser(){
     const[name, setName] = useState("");
@@ -24,6 +23,37 @@ export default function CreateUser(){
         console.log(user)
     }
 
+    function formatarCPF(cpf) {
+        cpf = cpf.replace(/\D/g, '')
+        cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2')
+        cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2')
+        cpf = cpf.replace(/(\d{3})(\d{1,2})/, '$1-$2')
+        cpf = cpf.replace(/(-\d{2})\d+?$/, '$1')
+    
+        setCPF(cpf);
+    }
+
+    function formatarRG(rg){
+        rg = rg.replace(/(\d{2})(\d)/, '$1.$2')
+        rg = rg.replace(/(\d{3})(\d)/, '$1.$2')
+        rg = rg.replace(/(\d{3})(\d{1,2})/, '$1-$2')
+        rg = rg.replace(/(-\d{1})\d+?$/, '$1')
+
+        setRG(rg);
+    }
+
+    function formatarCel(cel, AouR){
+        cel = cel.replace(/\D/g, '')
+        cel = cel.replace(/(\d{2})(\d)/, '($1) $2')
+        cel = cel.replace(/(\d{5})(\d)/, '$1-$2')
+        cel = cel.replace(/(\d{4})(\d{1,2})/, '$1-$2')
+        cel = cel.replace(/(-\d{1})\d+?$/, '$1')
+
+        if(AouR == "A")
+            setCelA(cel);
+
+        setCelR(cel);
+    }
     return(
         <div className="App">
             <form onSubmit={createUser} className="form">
@@ -38,27 +68,28 @@ export default function CreateUser(){
             <input type="text"
             placeholder="Digite seu CPF"
             required
+            maxLength={14}
             value={cpf}
-            onChange={(event) => {setCPF(event.target.value)}}
-            onBlur={(event) => {formatarCPF(event.target.value)}}/>
+            onChange={(event) => {formatarCPF(event.target.value)}}/>
             
             <input type="text"
             placeholder="Digite seu RG"
             required
+            maxLength={12}
             value={rg}
-            onChange={(event) => {setRG(event.target.value)}}/>
+            onChange={(event) => {formatarRG(event.target.value)}}/>
             
             <input type="text"
             placeholder="Digite o numero de telefone do aluno"
             required
             value={celA}
-            onChange={(event) => {setCelA(event.target.value)}}/>
+            onChange={(event) => {formatarCel(event.target.value)}}/>
 
             <input type="text"
             placeholder="Digite o numero de telefone do responsável"
             required
             value={celR}
-            onChange={(event) => {setCelR(event.target.value)}}/>
+            onChange={(event) => {formatarCel(event.target.value)}}/>
 
             <input type="date"
             placeholder="Digite o email do aluno"
