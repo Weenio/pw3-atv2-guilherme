@@ -91,8 +91,8 @@ export default function CreateUser(){
             value={celR}
             onChange={(event) => {formatarCel(event.target.value)}}/>
 
+            <p>Data de nascimento do aluno</p>
             <input type="date"
-            placeholder="Digite o email do aluno"
             required
             value={dataNasc}
             onChange={(event) => {setDataNasc(event.target.value)}}/>
